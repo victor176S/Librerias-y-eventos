@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -343,7 +345,7 @@ namespace VicGenLib
             return objeto.transform.position;
         }
 
-        public static void KeyCamMov(GameObject objeto, float rotationX, out float RotXOutPut)
+        public static void KeyCamMov(GameObject objeto, float rotationX, out float RotXOutPut, float topeRotacionArriba, float topeRotacionAbajo)
         {
             if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -357,7 +359,7 @@ namespace VicGenLib
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (rotationX > -40)
+                if (rotationX > -topeRotacionArriba)
                 {
                     rotationX -= 1;
                 }
@@ -366,7 +368,7 @@ namespace VicGenLib
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 
-                if (rotationX < 40)
+                if (rotationX < -topeRotacionAbajo)
                 {
                     rotationX += 1;
                 }
@@ -375,7 +377,7 @@ namespace VicGenLib
             RotXOutPut = rotationX; 
         }
 
-        public static void KeyCamMov(GameObject objeto, float rotationX, out float RotXOutPut, float velHor, float velVert)
+        public static void KeyCamMov(GameObject objeto, float rotationX, out float RotXOutPut, float topeRotacionArriba, float topeRotacionAbajo, float velHor, float velVert)
         {
             if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -389,7 +391,7 @@ namespace VicGenLib
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (rotationX > -40)
+                if (rotationX > -topeRotacionArriba)
                 {
                     rotationX -= 1 * velVert;
                 }
@@ -398,7 +400,7 @@ namespace VicGenLib
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 
-                if (rotationX < 40)
+                if (rotationX < -topeRotacionAbajo)
                 {
                     rotationX += 1 * velVert;
                 }
@@ -420,7 +422,120 @@ namespace VicGenLib
                 imagen.texture = camaras[numCamara].GetComponent<Camera>().targetTexture;
 
             }
+
+            public static IEnumerator RotateAmountByPress(GameObject objeto, KeyCode tecla, float cantidad, float segundosEntreMov)
+            {
+
+                if (Input.anyKeyDown)
+                {
+                    if (Input.GetKeyDown(tecla))
+                    {
+                        for(int i = 0; i < Mathf.Abs(cantidad); i++)
+                        {
+
+                            if (cantidad < 0)
+                            {
+                                objeto.transform.localEulerAngles += new UnityEngine.Vector3(-1,0,0);
+
+                                yield return new WaitForSeconds(segundosEntreMov);
+                            }
+
+                            if (cantidad > 0)
+                            {
+                                objeto.transform.localEulerAngles += new UnityEngine.Vector3(1,0,0);
+
+                                yield return new WaitForSeconds(segundosEntreMov);
+                            }
+                        }
+                    }
+                }
+            }
+
+            public static IEnumerator RotateAmountByPress(GameObject objeto, KeyCode tecla, float cantidad, float segundosEntreMov, bool setActive, bool setlate)
+            {
+                if (Input.anyKeyDown)
+                {
+                    Debug.Log("entrada input");
+
+                    if (!setlate)
+                    {
+                        if (setActive)
+                        {
+                            objeto.gameObject.SetActive(true);
+                        }
+
+                        if (!setActive)
+                        {
+                            objeto.gameObject.SetActive(false);
+                        }
+                    }
+
+                    if (Input.GetKeyDown(tecla))
+                    {
+                        Debug.Log("entrada input correcto");
+
+                        if (cantidad < 0)
+                        {
+                            objeto.transform.Rotate(cantidad, 0, 0);
+
+                            yield return new WaitForSeconds(segundosEntreMov);
+                        }
+
+                        if (cantidad > 0)
+                        {
+                            objeto.transform.Rotate(cantidad, 0, 0);
+
+                            yield return new WaitForSeconds(segundosEntreMov);
+                        }
+                    }
+                
+                    if (setlate)
+                    {
+
+                        if (setActive)
+                        {
+
+                            Debug.Log("set Active true");
+                            objeto.gameObject.SetActive(true);
+                        }
+
+                        if(!setActive)
+                        {
+                            Debug.Log("set Active false");
+                            objeto.gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    namespace Logic
+    {
+        public class Func
+        {
+            public static void OneOrOtherFunc(List<IEnumerator> funciones, bool entrada, out bool salida)
+            {
+                GameObject eventHandler = GameObject.FindWithTag("EventHandler");
+
+                Debug.Log("entrada OneorOther");
+
+                if (entrada)
+                {
+                    Debug.Log("entrada OneorOther entrada");
+
+                    eventHandler.GetComponent<CorrutineExecutor>().ExecuteCorrutine(funciones[0]);
+                }
+
+                if (!entrada)
+                {
+                    eventHandler.GetComponent<CorrutineExecutor>().ExecuteCorrutine(funciones[1]);
+                }
+                
+                salida = !entrada;
+
+            }
         }
     }
 }   
-
+        

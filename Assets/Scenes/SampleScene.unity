@@ -929,7 +929,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354315536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.332}
+  m_LocalPosition: {x: 0, y: 0, z: 0.125}
   m_LocalScale: {x: 1.9235567, y: 1.0781, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -937,7 +937,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.098, y: 0.09300017}
+  m_AnchoredPosition: {x: -0.098, y: 0.584}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &410087039
@@ -1707,7 +1707,7 @@ Transform:
   m_GameObject: {fileID: 1012778418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.099, y: -0.108, z: -0.343}
+  m_LocalPosition: {x: 0.099, y: -0.582, z: 0.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2268,9 +2268,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1379732640}
   - component: {fileID: 1379732639}
+  - component: {fileID: 1379732641}
   m_Layer: 0
   m_Name: EventHandler
-  m_TagString: Untagged
+  m_TagString: EventHandler
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2302,6 +2303,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1379732641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379732638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a93bd84866360442a420ba97526ca4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VicGenLib.CorrutineExecutor.CorrutineExecutor
 --- !u!1 &1423091060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,7 +2654,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782556020}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.272}
+  m_LocalPosition: {x: 0, y: 0, z: 0.06499994}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2653,7 +2666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.101997375, y: 0.089999914}
+  m_AnchoredPosition: {x: -0.101997375, y: 0.5809997}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1782556025
@@ -2831,6 +2844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947427335cacf5d48aa575149af0c47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  currentRotX: 0
+  currentRotY: 0
+  currentRotZ: 0
+  postRotX: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
