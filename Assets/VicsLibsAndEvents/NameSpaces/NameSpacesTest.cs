@@ -30,8 +30,6 @@ public class NameSpacesTest : MonoBehaviour
     void Start()
     {
         Debug.Log($"Suma {Sums.SumExample(num1, num2)}");
-
-        Debug.Log($"Normalizacion {Movement.Normalize(num1, num2)}");
         
     }
 

@@ -26,24 +26,6 @@ namespace VicGenLib
 
         public class Movement
         {       
-            public static float Normalize(float a, float b)
-            {
-                float c;
-
-                float a2;
-
-                float b2;
-
-                a2 = Mathf.Pow(a, 2);
-
-                b2 = Mathf.Pow(b, 2);
-
-                c = a2 + b2;
-
-                c = Mathf.Sqrt(c);
-
-                    return c;
-            }
 
             //Usar en Update
             /*Hace el lerp más facil teniendo solo que pasar las variables*/
@@ -181,7 +163,6 @@ namespace VicGenLib
 
     namespace Controllers
     {
-
         public class MovBase
         {
         public static UnityEngine.Vector3 SimplePlayerMovement(GameObject objeto)
@@ -510,6 +491,38 @@ namespace VicGenLib
         }
     }
 
+    namespace Models
+    {
+        public class MatModf
+        {
+
+            public static void SimpleColorChange(GameObject objeto, float r, float g, float b,  float a)
+            {
+                objeto.GetComponent<Renderer>().material.color = new Color(r, g, b, a);
+            }
+            public static void SimpleAlphaChange(GameObject objeto, float valor)
+            {
+                objeto.GetComponent<Renderer>().material.color = new Color(objeto.GetComponent<Renderer>().material.color.r, objeto.GetComponent<Renderer>().material.color.g, objeto.GetComponent<Renderer>().material.color.b, valor);
+            }
+
+            public static void ColorChangeLerp(GameObject objeto, Color color1, Color color2)
+            {
+                objeto.GetComponent<Renderer>().material.color = Color.Lerp(color1, color2, Mathf.PingPong(Time.time, 1f));
+            }
+
+            public static void ColorAlphaChangeLerp(GameObject objeto, Color color1, Color color2, float alpha1, float alpha2)
+            {
+                objeto.GetComponent<Renderer>().material.color = Color.Lerp(new Color(color1.r, color1.g, color1.b, alpha1), new Color(color2.r, color2.g, color2.b, alpha2), Mathf.PingPong(Time.time, 1));
+            }
+
+            public static void CustomAlphaChange(GameObject objeto, float alpha, float tiempo)
+            {
+                objeto.GetComponent<Renderer>().material.color = new Color(objeto.GetComponent<Renderer>().material.color.r, objeto.GetComponent<Renderer>().material.color.g, objeto.GetComponent<Renderer>().material.color.b, alpha * (1 / tiempo) * Time.deltaTime);
+
+
+        }
+    }
+
     namespace Logic
     {
         public class Func
@@ -537,5 +550,6 @@ namespace VicGenLib
             }
         }
     }
-}   
+  }
+}
         
