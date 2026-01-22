@@ -1,16 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
-using Mono.Cecil.Cil;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace VicGenLib
-
 {
     namespace Calc
     {
+        public class Convert
+        {
+            public static int ToInt(float valor)
+            {
+                return (int)valor; 
+            }
+        }
         public class Sums
         {       
             public static float SumExample(float a, float b)
@@ -22,6 +26,39 @@ namespace VicGenLib
                     return c;
             }
 
+        }
+
+        //realmente no soluciono mucho, pero al menos lo tengo aqui por si me olvido de como se hace
+
+        public class Counters
+        {
+            public static float FpsIndependentCounter(float tiempo)
+            {
+               tiempo += Time.deltaTime; 
+
+               return tiempo;
+            }
+
+            public static float FpsIndependentCounter(float tiempo, float rapidez)
+            {
+               tiempo += rapidez * Time.deltaTime; 
+
+               return tiempo;
+            }
+
+            public static float FpsIndependentCounterInt(float tiempo)
+            {
+               tiempo += Time.deltaTime;
+
+               return tiempo;
+            }
+
+            public static float FpsIndependentCounterIntCustom(float tiempo, float rapidez)
+            {
+               tiempo += rapidez * Time.deltaTime;
+
+               return tiempo;
+            }
         }
 
         public class Movement
@@ -157,7 +194,6 @@ namespace VicGenLib
 
                 return objeto.transform.position;
             }
-
         }   
     }
 
@@ -194,22 +230,22 @@ namespace VicGenLib
         {
             if(Input.GetKey(KeyCode.W))
             {
-                objeto.transform.position += new UnityEngine.Vector3(0,0,0.1f * velocidad);
+                objeto.transform.localPosition += new UnityEngine.Vector3(0,0,0.1f * velocidad);
             }
 
             if(Input.GetKey(KeyCode.S))
             {
-                objeto.transform.position += new UnityEngine.Vector3(0,0,-0.1f * velocidad);
+                objeto.transform.localPosition += new UnityEngine.Vector3(0,0,-0.1f * velocidad);
             }
 
             if(Input.GetKey(KeyCode.A))
             {
-                objeto.transform.position += new UnityEngine.Vector3(-0.1f,0,0 * velocidad);
+                objeto.transform.localPosition += new UnityEngine.Vector3(-0.1f,0,0 * velocidad);
             }
 
             if(Input.GetKey(KeyCode.D))
             {
-                objeto.transform.position += new UnityEngine.Vector3(0.1f,0,0 * velocidad);
+                objeto.transform.localPosition += new UnityEngine.Vector3(0.1f,0,0 * velocidad);
             }
 
             return objeto.transform.position;
@@ -219,22 +255,22 @@ namespace VicGenLib
         {
             if(Input.GetKey(codeForward))
             {
-                objeto.transform.position += new UnityEngine.Vector3(0,0,0.1f);
+                objeto.transform.localPosition += new UnityEngine.Vector3(0,0,0.1f);
             }
 
             if(Input.GetKey(codeBackwards))
             {
-                objeto.transform.position += new UnityEngine.Vector3(0,0,-0.1f);
+                objeto.transform.localPosition += new UnityEngine.Vector3(0,0,-0.1f);
             }
 
             if(Input.GetKey(codeLeft))
             {
-                objeto.transform.position += new UnityEngine.Vector3(-0.1f,0,0);
+                objeto.transform.localPosition += new UnityEngine.Vector3(-0.1f,0,0);
             }
 
             if(Input.GetKey(codeRight))
             {
-                objeto.transform.position += new UnityEngine.Vector3(0.1f,0,0);
+                objeto.transform.localPosition += new UnityEngine.Vector3(0.1f,0,0);
             }
 
             return objeto.transform.position;
@@ -390,6 +426,36 @@ namespace VicGenLib
             RotXOutPut = rotationX; 
         }
 
+        
+        public static void MouseCamMovFPS(GameObject objeto, float yRotation, float xRotation, Transform orientation ,out Transform orientationOut, out float yRotationOut, out float xRotationOut, float sensX, float sensY)
+        {
+
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+
+            yRotation += mouseX;
+            
+            xRotation -= mouseY;
+
+            Debug.Log($"{yRotation}, {xRotation}");
+           
+            xRotation = Math.Clamp(xRotation, -90f, 90f);
+
+            objeto.transform.rotation = Quaternion.Euler(0, yRotation, 0);
+
+            objeto.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(xRotation, 0, 0);
+
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+
+            orientationOut = orientation;
+
+            yRotationOut = yRotation;
+
+            xRotationOut = xRotation;
+                 
+        }
+
         }
     }
 
@@ -522,8 +588,9 @@ namespace VicGenLib
 
         }
     }
+  }
 
-    namespace Logic
+  namespace Logic
     {
         public class Func
         {
@@ -550,6 +617,20 @@ namespace VicGenLib
             }
         }
     }
-  }
+
+    namespace Logic
+    {
+        public class GUI
+        {
+            public static string PassFramesToText()
+            {
+                int fps;
+
+                fps = (int)(1f/Time.unscaledDeltaTime);
+
+                return fps.ToString();
+            }
+        }
+    }
 }
         
