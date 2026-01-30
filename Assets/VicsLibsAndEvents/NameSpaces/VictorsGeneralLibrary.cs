@@ -590,7 +590,7 @@ namespace VicGenLib
     }
   }
 
-  namespace Logic
+    namespace Logic
     {
         public class Func
         {
@@ -630,6 +630,79 @@ namespace VicGenLib
 
                 return fps.ToString();
             }
+        }
+    }
+
+    namespace Logic
+    {
+        public class RayCasts
+        {
+            public static bool SimpleCast(GameObject objeto, Vector3 direccion, float longitud)
+            {
+
+                bool castHit = false;
+
+                if (Physics.Raycast(objeto.transform.localPosition, objeto.transform.TransformDirection(direccion), longitud))
+                {
+                    castHit = true;
+                }
+
+                return castHit;
+            }
+
+            public static bool SimpleCastInfo(GameObject objeto, Vector3 direccion, float longitud, out RaycastHit castInfoOut)
+            {
+
+                RaycastHit castInfo;
+
+                bool castHit = false;
+
+                if (Physics.Raycast(objeto.transform.localPosition, objeto.transform.TransformDirection(direccion), out castInfo, longitud))
+                {
+                    castHit = true;
+                }
+
+                castInfoOut = castInfo;
+
+                return castHit;
+            }
+
+            public static bool CustomCast(GameObject objeto, Vector3 direccion, Vector3 positionOffset, float longitud)
+            {
+
+                bool castHit = false;
+
+                if (Physics.Raycast(objeto.transform.localPosition + positionOffset, objeto.transform.TransformDirection(direccion), longitud))
+                {
+                    castHit = true;
+                }
+
+                return castHit;
+            }
+
+            public static bool CustomCastInfo(GameObject objeto, Vector3 direccion, Vector3 positionOffset, bool automaticOffset, float longitud, out RaycastHit castInfoOut)
+            {
+
+                if (automaticOffset)
+                {
+                    positionOffset += objeto.transform.localScale/2;
+                }
+
+                RaycastHit castInfo;
+
+                bool castHit = false;
+
+                if (Physics.Raycast(objeto.transform.localPosition + positionOffset, objeto.transform.TransformDirection(direccion), out castInfo, longitud))
+                {
+                    castHit = true;
+                }
+
+                castInfoOut = castInfo;
+
+                return castHit;
+            }
+
+
         }
     }
 }
