@@ -1,0 +1,8 @@
+Los scripts que se asignan a la marca son:
+
+SimpleQuickTimeEvents
+{
+
+los botones/interruptores pueden tener el nombre "Interruptor" o la etiqueta con dicho nombre
+
+}
