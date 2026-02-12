@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SimpleQuickTimeEvents : MonoBehaviour
 {
     public GameObject marcaFunc;
 
     private bool pulsado;
+
+    float contadorPulsado;
+
+    float contadorFull;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +50,12 @@ public class SimpleQuickTimeEvents : MonoBehaviour
                 interruptor.pulsado = true;
 
                 pulsado = true;
+
+                contadorPulsado = other.gameObject.GetComponent<InterruptorData>().contador;
+
+                
+
+                
             }
         }
     }
@@ -52,6 +63,31 @@ public class SimpleQuickTimeEvents : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         pulsado = false;
+
+        contadorFull = other.gameObject.GetComponent<InterruptorData>().contador;
+
+        if (contadorPulsado <= contadorFull / 3f)
+        {
+            Debug.Log("Muy pronto");
+        }
+
+        if (contadorPulsado < contadorFull / 2f && contadorPulsado >= contadorFull / 3f)
+        {
+            Debug.Log("bien");
+        }
+
+        if (contadorPulsado >= contadorFull / 2f && contadorPulsado < (contadorFull / 3f) + contadorFull / 2)
+        {
+            Debug.Log("bien");
+        }
+
+        if (contadorPulsado >= (contadorFull / 3f) + contadorFull / 2)
+        {
+            Debug.Log("muy tarde");
+        }
+
+        
+
     }
 
 }

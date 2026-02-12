@@ -19,10 +19,12 @@ public class InterruptorData : MonoBehaviour
 
     [SerializeField] private List<float> sectionValues;
 
+    public float contador;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GetSections();
+        //GetSections();
     }
 
     // Update is called once per frame
@@ -30,11 +32,20 @@ public class InterruptorData : MonoBehaviour
     {
         gameObject.transform.Translate(direccion * velocidad);
     }
-    void GetSections()
+    /*void GetSections()
     {
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             sections[i] = gameObject.transform.GetChild(1 + i).gameObject;
         }
+    }*/
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Marca"))
+        {
+            contador += Time.deltaTime;
+        }
     }
+    
 }
