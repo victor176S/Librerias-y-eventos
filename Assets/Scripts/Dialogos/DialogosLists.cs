@@ -19,7 +19,7 @@ public class DialogosLists : MonoBehaviour
 
     public List<int> dialogosSeleccionados;
 
-    private string AppendToString;
+    [SerializeField] private string AppendToString;
 
     public TextMeshProUGUI textoCaja;
     private bool called;
@@ -39,6 +39,7 @@ public class DialogosLists : MonoBehaviour
     public float delayBetweenDialoges;
 
     private int l;
+    public bool activar;
 
     void Awake()
     {
@@ -48,6 +49,8 @@ public class DialogosLists : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Debug.Log(dialogos[0]);
+
         /*dialogos[1] = "dialogo 2";
         dialogosArrays[1] = dialogos[1].ToCharArray();*/
     }
@@ -55,42 +58,42 @@ public class DialogosLists : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        if (isOneDialog == true)
+        if (activar)
         {
-
-             StartCoroutine(Delay());
-
-            if (delayFinished == true)
+            if (isOneDialog == true)
             {
-                if (!called)
+
+                StartCoroutine(Delay());
+
+                if (delayFinished == true)
                 {
+                    if (!called)
+                    {
+                        var dialogoArray = dialogos[dialogo].ToCharArray();
 
-                    var dialogoArray = dialogos[dialogo].ToCharArray();
+                        StartCoroutine(DialogoLogic(dialogoArray));
+                    }
 
-                    StartCoroutine(DialogoLogic(dialogoArray));
                 }
 
             }
 
-        }
-
-        if (isOneDialog == false)
-        {
-            StartCoroutine(Delay());
-
-            if (delayFinished == true)
+            if (isOneDialog == false)
             {
-                if (!called)
+                StartCoroutine(Delay());
+
+                if (delayFinished == true)
                 {
+                    if (!called)
+                    {
                 
-                    StartCoroutine(MultiDialogos());  
+                        StartCoroutine(MultiDialogos());  
                 
+                    }
                 }
-            }
    
-        }
-        
+            }
+        } 
     }
 
     public IEnumerator Delay()
@@ -143,7 +146,7 @@ public class DialogosLists : MonoBehaviour
             if (i == 0)
             {
                 AppendToString += dialogoArray[i].ToString();
-                yield return new WaitForSeconds(0.033f);
+                yield return new WaitForSeconds(0.03f);
             }
 
             else
@@ -154,7 +157,7 @@ public class DialogosLists : MonoBehaviour
                 }
                 else
                 {
-                    yield return new WaitForSeconds(0.033f);
+                    yield return new WaitForSeconds(0.03f);
                 }
                     AppendToString += dialogoArray[i].ToString();
             }
@@ -178,6 +181,23 @@ public class DialogosLists : MonoBehaviour
             }
         }
 
+        if(activar == true)
+        {
+            Invoke(nameof(FinDialogo), 0.5f*dialogoArray.Length);
+        }
+    }
+
+    void FinDialogo()
+    {
+        textoCaja.text = "";
+
+        dialogo = 0;
+
+        AppendToString = "";
+
+        called = false;
+
+        activar = false;
     }
     
 }
