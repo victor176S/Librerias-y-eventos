@@ -38,7 +38,7 @@ public class DialoguesSystem : MonoBehaviour
 
     [Header ("Donde poner el texto")]
 
-    public TextMeshProUGUI cajaDeTexto;
+    public GameObject cajaDeTexto;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -67,12 +67,7 @@ public class DialoguesSystem : MonoBehaviour
         {
             cancellationToken.Cancel();
 
-            cajaDeTexto.text = "";
-        }
-
-        else
-        {
-            
+            cajaDeTexto.GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 
@@ -97,7 +92,7 @@ public class DialoguesSystem : MonoBehaviour
 
             await UniTask.Delay(TimeSpan.FromSeconds(WordPrintDelay(dialogo[k])));
 
-            cajaDeTexto.text += dialogo[k].ToString();
+            cajaDeTexto.GetComponent<TextMeshProUGUI>().text += dialogo[k].ToString();
         }
     }
 
@@ -148,7 +143,7 @@ public class DialoguesSystem : MonoBehaviour
 
         if(dialogos != null) 
         {
-            for (int i = 0; i < dialogos.Count; i++)
+            for (int i = 0; i < dialogos.Count; i++) 
             {
                 
                 foreach (char c in dialogos[i])
@@ -159,19 +154,24 @@ public class DialoguesSystem : MonoBehaviour
 
                 if (cancelDialogue)
                 {
-                    cajaDeTexto.text = "";
+                    cajaDeTexto.GetComponent<TextMeshProUGUI>().text = "";
                     
                     return;  
                 }
 
                 await UniTask.Delay(TimeSpan.FromSeconds(WordPrintDelay(c)), cancellationToken: cancellationToken.Token);
 
-                cajaDeTexto.text += c.ToString();
+                this.cajaDeTexto.GetComponent<TextMeshProUGUI>().text += c.ToString();
                 }
 
                 await UniTask.Delay(TimeSpan.FromSeconds(delayForLetters / printSpeedMultipler + delayEntreDialogos));
 
-                cajaDeTexto.text = "";
+                this.cajaDeTexto.GetComponent<TextMeshProUGUI>().text = "";
+
+                if (i == dialogos.Count -1)
+                {
+                    cajaDeTexto.SetActive(false);
+                }
             }
         }
         else
