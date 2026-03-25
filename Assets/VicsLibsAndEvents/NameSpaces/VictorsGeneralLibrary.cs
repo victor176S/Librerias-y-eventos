@@ -26,7 +26,25 @@ namespace VicGenLib
 
                     return c;
             }
+        }
 
+        public class HumanizedEulerAngles
+        {
+            public static Quaternion NormalToEulerAngles(Vector3 rotacion)
+            {
+                Quaternion rotacionNueva = Quaternion.Euler(rotacion / 57.295645530939648586707410236822f);
+
+                return rotacionNueva;
+            }
+
+            public static Vector3 EulerToNormalAngles(Quaternion rotacion)
+            {
+                Vector3 rotacionNueva = new Vector3(rotacion.x * 57.295645530939648586707410236822f,
+                                                    rotacion.y * 57.295645530939648586707410236822f,
+                                                    rotacion.z * 57.295645530939648586707410236822f);
+
+                return rotacionNueva;
+            }
         }
 
         //realmente no soluciono mucho, pero al menos lo tengo aqui por si me olvido de como se hace
