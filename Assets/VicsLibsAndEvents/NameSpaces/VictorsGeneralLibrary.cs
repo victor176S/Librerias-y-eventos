@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,11 +27,27 @@ namespace VicGenLib
             }
         }
 
-        public class HumanizedEulerAngles
+        public class Angles
         {
             public static Quaternion NormalToEulerAngles(Vector3 rotacion)
             {
                 Quaternion rotacionNueva = Quaternion.Euler(rotacion / 57.295645530939648586707410236822f);
+
+                return rotacionNueva;
+            }
+
+            public static Quaternion NormalToEulerAngles(float rotacionX, float rotacionY, float rotacionZ)
+            {
+                Quaternion rotacionNueva = Quaternion.Euler(rotacionX / 57.295645530939648586707410236822f,
+                                                            rotacionY / 57.295645530939648586707410236822f, 
+                                                            rotacionZ / 57.295645530939648586707410236822f);
+
+                return rotacionNueva;
+            }
+
+            public static float NormalToEulerSingleAngle(float rotacion)
+            {
+                float rotacionNueva = rotacion / 57.295645530939648586707410236822f;
 
                 return rotacionNueva;
             }
@@ -45,6 +60,11 @@ namespace VicGenLib
 
                 return rotacionNueva;
             }
+
+            /*public static Quaternion AddEulerQuaternions(Quaternion quaternion1, Quaternion quaternion2)
+            {
+                
+            }*/
         }
 
         //realmente no soluciono mucho, pero al menos lo tengo aqui por si me olvido de como se hace
