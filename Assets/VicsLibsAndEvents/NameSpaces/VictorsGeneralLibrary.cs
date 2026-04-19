@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 namespace VicGenLib
 {
@@ -65,6 +66,13 @@ namespace VicGenLib
             {
                 
             }*/
+
+            public static float ModularClamp(float val, float min, float max, float rangemin = -180f, float rangemax = 180f) 
+            {
+                var modulus = Mathf.Abs(rangemax - rangemin);
+                if((val %= modulus) < 0f) val += modulus;
+                return Mathf.Clamp(val + Mathf.Min(rangemin, rangemax), min, max);
+            }
         }
 
         //realmente no soluciono mucho, pero al menos lo tengo aqui por si me olvido de como se hace
@@ -496,6 +504,85 @@ namespace VicGenLib
         }
 
         }
+
+        public class BaseControls
+        {
+            public static bool Press(KeyCode tecla)
+            {
+                if (Input.GetKeyDown(tecla))
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            public static bool Maintain(KeyCode tecla)
+            {
+                if (Input.GetKey(tecla))
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            public static bool Release(KeyCode tecla)
+            {
+                if (Input.GetKeyUp(tecla))
+                {
+                    return true;
+                }
+                else return false; 
+            }
+
+            public static bool PMR(int accion, KeyCode tecla)
+            {
+                switch (accion)
+                {
+                    case 0:
+
+                        if (Input.GetKeyDown(tecla))
+                        {
+                            return true;
+                        }
+                        else return false;
+
+                    case 1:
+
+                        if (Input.GetKey(tecla))
+                        {
+                            return true;
+                        }
+                        else return false;
+
+                    case 2:
+
+                        if (Input.GetKeyUp(tecla))
+                        {
+                            return true;
+                        }
+                        else return false;
+                    
+                    default:
+
+                        break;
+                }
+
+                return false;
+            }
+
+            /*public static Vector2 MouseAxisDetector()
+            {
+                
+            }*/
+        }
+
+        public class VRControls
+        {/*
+            public static Vector2 GetHeadSet()
+            {
+                
+            }*/
+        }
     }
 
     namespace Canvas
@@ -633,7 +720,7 @@ namespace VicGenLib
     {
         public class Func
         {
-            public static void OneOrOtherFunc(List<IEnumerator> funciones, bool entrada, out bool salida)
+            /*public static void OneOrOtherFunc(List<IEnumerator> funciones, bool entrada, out bool salida)
             {
                 GameObject eventHandler = GameObject.FindWithTag("EventHandler");
 
@@ -653,7 +740,7 @@ namespace VicGenLib
                 
                 salida = !entrada;
 
-            }
+            }*/
         }
     }
 
@@ -681,7 +768,7 @@ namespace VicGenLib
 
                 bool castHit = false;
 
-                if (Physics.Raycast(objeto.transform.localPosition, objeto.transform.TransformDirection(direccion), longitud))
+                if (Physics.Raycast(objeto.transform.localPosition, direccion, longitud))
                 {
                     castHit = true;
                 }
@@ -696,7 +783,7 @@ namespace VicGenLib
 
                 bool castHit = false;
 
-                if (Physics.Raycast(objeto.transform.localPosition, objeto.transform.TransformDirection(direccion), out castInfo, longitud))
+                if (Physics.Raycast(objeto.transform.localPosition, direccion, out castInfo, longitud))
                 {
                     castHit = true;
                 }
@@ -705,13 +792,13 @@ namespace VicGenLib
 
                 return castHit;
             }
-
+ 
             public static bool CustomCast(GameObject objeto, Vector3 direccion, Vector3 positionOffset, float longitud)
             {
 
                 bool castHit = false;
 
-                if (Physics.Raycast(objeto.transform.localPosition + positionOffset, objeto.transform.TransformDirection(direccion), longitud))
+                if (Physics.Raycast(objeto.transform.localPosition + positionOffset, direccion, longitud))
                 {
                     castHit = true;
                 }
@@ -731,7 +818,7 @@ namespace VicGenLib
 
                 bool castHit = false;
 
-                if (Physics.Raycast(objeto.transform.localPosition + positionOffset, objeto.transform.TransformDirection(direccion), out castInfo, longitud))
+                if (Physics.Raycast(objeto.transform.localPosition + positionOffset, direccion, out castInfo, longitud))
                 {
                     castHit = true;
                 }
